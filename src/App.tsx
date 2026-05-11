@@ -132,7 +132,7 @@ function AppContent() {
         />
       )}
 
-      <main className="px-6 md:px-[60px] pb-8 mt-0 max-w-[1500px] mx-auto">
+      <main className={isPlayground ? '' : 'px-6 md:px-[60px] pb-8 mt-0 max-w-[1500px] mx-auto'}>
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
