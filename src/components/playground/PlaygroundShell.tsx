@@ -765,15 +765,10 @@ function Sidebar({
 
   return (
     <>
-      {/* Mobile backdrop */}
-      {isMobileOpen && (
-        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={onMobileClose} />
-      )}
 
       <aside className={`
-        fixed top-0 left-0 h-screen w-64 bg-white border-r border-slate-200 flex flex-col z-50
-        transition-transform duration-300
-        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        w-64 shrink-0 bg-white border-r border-slate-200 flex flex-col overflow-y-auto
+        ${isMobileOpen ? 'flex' : 'hidden lg:flex'}
       `}>
         {/* Branding */}
         <div className="px-5 py-4 border-b border-slate-100 shrink-0">
@@ -787,8 +782,8 @@ function Sidebar({
                 <div className="text-[10px] text-slate-400 font-medium mt-0.5">Threadline Design System</div>
               </div>
             </div>
-            <button onClick={onMobileClose} className="lg:hidden text-slate-400 hover:text-slate-600">
-              <XIcon size={18} />
+            <button onClick={onMobileClose} className="lg:hidden p-1 text-slate-400 hover:text-slate-600">
+              <XIcon size={16} />
             </button>
           </div>
         </div>
@@ -904,7 +899,7 @@ export function PlaygroundShell() {
   );
 
   return (
-    <div className="flex min-h-screen bg-[#f8f9fa]">
+    <div className="flex bg-[#f8f9fa]" style={{ height: '100dvh', overflow: 'hidden' }}>
       <Sidebar
         activeId={activeId}
         onSelect={setActiveId}
@@ -914,12 +909,12 @@ export function PlaygroundShell() {
         onMobileClose={() => setMobileOpen(false)}
       />
 
-      {/* Main content — offset by sidebar width */}
-      <div className="flex-1 lg:ml-64 min-w-0">
+      {/* Main content — scrolls independently */}
+      <div className="flex-1 min-w-0 overflow-y-auto flex flex-col">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200 px-6 py-3 flex items-center gap-4">
+        <header className="sticky top-0 z-10 shrink-0 bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 py-3 flex items-center gap-4">
           <button
-            onClick={() => setMobileOpen(true)}
+            onClick={() => setMobileOpen(v => !v)}
             className="lg:hidden p-1.5 rounded-lg text-slate-500 hover:bg-slate-100"
           >
             <Layers size={18} />
