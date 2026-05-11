@@ -1,7 +1,7 @@
 import React from "react";
-import { AlertTriangle, Activity, CheckCircle2, Info, HelpCircle, ChevronRight } from "lucide-react";
+import { AlertTriangle, Activity, CheckCircle2, FlaskConical, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useWorkspaceAlerts, COGNITIVE_LOOP_LABELS } from "../../contexts/WorkspaceAlertsContext";
 import { useFeatureFlags } from "../../contexts/FeatureToggleContext";
 import { Typography } from "../../components/ui";
@@ -12,6 +12,7 @@ interface WorkspaceStatusBarProps {
 }
 
 export function WorkspaceStatusBar({ onNavigate }: WorkspaceStatusBarProps) {
+  const navigate = useNavigate();
   const { flags } = useFeatureFlags();
   const { conflicts, missingDocuments, lowConfidenceMappings, currentStep } = useWorkspaceAlerts();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -117,17 +118,30 @@ export function WorkspaceStatusBar({ onNavigate }: WorkspaceStatusBarProps) {
               </div>
             )}
             
-            {/* Status Indicator */}
-            {currentStep === 6 && !showAlerts ? (
-              <div className="flex items-center gap-1.5 text-emerald-600 text-[11px] font-semibold">
-                <CheckCircle2 size={14} />
-                <span>Verification Ready</span>
-              </div>
-            ) : (
-              <div className="text-[10px] text-text-secondary font-bold tracking-widest uppercase opacity-80">
-                {showAlerts ? "" : "Live Processing"}
-              </div>
-            )}
+            {/* Status Indicator & Playground */}
+            <div className="flex items-center gap-6">
+              {currentStep === 6 && !showAlerts ? (
+                <div className="flex items-center gap-1.5 text-emerald-600 text-[11px] font-semibold">
+                  <CheckCircle2 size={14} />
+                  <span>Verification Ready</span>
+                </div>
+              ) : (
+                <div className="text-[10px] text-text-secondary font-bold tracking-widest uppercase opacity-80">
+                  {showAlerts ? "" : "Live Processing"}
+                </div>
+              )}
+
+              <div className="h-4 w-px bg-divider mx-0" />
+
+              <button 
+                onClick={() => navigate('/playground')}
+                className="flex items-center gap-1.5 text-text-secondary hover:text-brand transition-colors cursor-pointer group"
+                title="Open Style Guide / Playground"
+              >
+                <FlaskConical size={12} className="group-hover:rotate-12 transition-transform" />
+                <span className="text-[10px] font-bold uppercase tracking-wider">Playground</span>
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
