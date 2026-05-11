@@ -132,13 +132,13 @@ function AppContent() {
         />
       )}
 
-      <main className="px-6 md:px-[60px] pb-8 mt-0 max-w-[1500px] mx-auto">
+      <main className={isPlayground ? '' : 'px-6 md:px-[60px] pb-8 mt-0 max-w-[1500px] mx-auto'}>
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={isPlayground ? false : { opacity: 0, y: 10 }}
+            animate={isPlayground ? {} : { opacity: 1, y: 0 }}
+            exit={isPlayground ? {} : { opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
             <Routes location={location}>
